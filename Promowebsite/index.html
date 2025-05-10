@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promo Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Promo Website</h1>
+        <p>Redeem your promo codes and connect your wallet easily.</p>
+
+        <input type="text" id="promoCode" placeholder="Enter Promo Code">
+        <button onclick="redeemCode()">Redeem</button>
+
+        <button onclick="connectWallet()">Connect Wallet</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        async function connectWallet() {
+            if (window.ethereum) {
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    document.getElementById('status').innerText = 'Wallet Connected!';
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                alert('MetaMask not detected');
+            }
+        }
+
+        function redeemCode() {
+            const code = document.getElementById('promoCode').value;
+            if (code) {
+                document.getElementById('status').innerText = `Promo Code "${code}" redeemed successfully!`;
+            } else {
+                document.getElementById('status').innerText = 'Please enter a promo code.';
+            }
+        }
+    </script>
+</body>
+</html>
