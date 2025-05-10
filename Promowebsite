@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promo Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Claim Your Promo Code</h1>
+        <button onclick="connectWallet()">Connect Wallet</button>
+        <p id="wallet-address">Wallet Address: Not Connected</p>
+        <input type="text" id="promo-code" placeholder="Enter Promo Code">
+        <button onclick="redeemCode()">Redeem Code</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        let web3;
+        async function connectWallet() {
+            if (window.ethereum) {
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    web3 = new Web3(window.ethereum);
+                    const accounts = await web3.eth.getAccounts();
+                    document.getElementById('wallet-address').innerText = `Wallet Address: ${accounts[0]}`;
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                alert('MetaMask not detected');
+            }
+        }
+
+        function redeemCode() {
+            const code = document.getElementById('promo-code').value;
+            if (code) {
+                document.getElementById('status').innerText = `Promo Code \"${code}\" Redeemed!`;
+            } else {
+                document.getElementById('status').innerText = 'Please enter a promo code.';
+            }
+        }
+    </script>
+</body>
+</html>
